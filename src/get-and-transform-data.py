@@ -16,5 +16,7 @@ av = AlphaVantage(
         clean=False,
         proxy={}
     )
-av.data(symbol="VTI", function="M")
-av.data(symbol="VTI", function="D")
+ticker_M_VTI = av.data(symbol="VTI", function="M")
+print(ticker_M_VTI)
+ticker_D_VTI = av.data(symbol="VTI", function="D")
+print(ticker_D_VTI)

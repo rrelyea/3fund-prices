@@ -10,10 +10,11 @@ jobs:
     steps:
     - name: Check out this repo
       uses: actions/checkout@v2
-    - name: Get data
+    - name: Install packages
       run: |-
         pip install pandas
         pip install alphaVantage-api
+    - name: Get data
         python src/get-and-transform-data.py --key ${{ secrets.ALPHAVANTAGE_KEY }}
       shell: sh
     - name: Commit and push if it changed

@@ -1,6 +1,6 @@
 import pandas as pd
 from alphaVantageAPI import AlphaVantage
-from datetime import date
+from datetime import date,datetime
 import sys
 import os
 

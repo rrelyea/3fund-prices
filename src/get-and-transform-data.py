@@ -18,11 +18,10 @@ av = AlphaVantage(
         proxy={}
     )
 
-def createDataFile(ticker, function):   
+def createDataFile(ticker, function):
+  path = "./data/" + function + "_" + ticker + ".csv"   
   data = av.data(symbol=ticker, function=function)
-  file = open("data/"+function+"_"+ticker+".txt", 'w') 
-  file.write(data)
-  file.close()
+  data.to_csv(path)
 
 targetPath = './data/'
 while not os.path.exists(targetPath):

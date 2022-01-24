@@ -16,7 +16,13 @@ av = AlphaVantage(
         clean=False,
         proxy={}
     )
-ticker_M_VTI = av.data(symbol="VTI", function="M")
-print(ticker_M_VTI)
-ticker_D_VTI = av.data(symbol="VTI", function="D")
-print(ticker_D_VTI)
+
+def createDataFile(ticker, function):   
+  data = av.data(symbol=ticker, function=function)
+  file = open("data/"+function+"_"+ticker+".txt", 'w') 
+  file.write(data)
+  file.close()
+
+createDataFile("VTI", "M")
+createDataFile("VXUS", "M")
+createDataFile("BND", "M")

@@ -21,7 +21,11 @@ av = AlphaVantage(
 def createDataFile(ticker, function):
   path = "./data/" + function + "_" + ticker + ".csv"   
   data = av.data(symbol=ticker, function=function)
-  data.to_csv(path)
+  del data["1. open"]
+  del data["2. high"]
+  del data["3. low"]
+  del data["5. volume"]
+  data.to_csv(path, index=False)
 
 targetPath = './data/'
 while not os.path.exists(targetPath):

@@ -25,6 +25,7 @@ def createDataFile(ticker, function):
   del data["2. high"]
   del data["3. low"]
   del data["5. volume"]
+  data.rename(columns = {'4. close':'close'}, inplace = True)
   data.to_csv(path, index=False)
 
 targetPath = './data/'
@@ -33,3 +34,6 @@ while not os.path.exists(targetPath):
 createDataFile("VTI", "M")
 createDataFile("VXUS", "M")
 createDataFile("BND", "M")
+createDataFile("VTI", "D")
+createDataFile("VXUS", "D")
+createDataFile("BND", "D")

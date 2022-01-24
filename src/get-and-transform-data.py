@@ -1,5 +1,6 @@
 import pandas as pd
 from alphaVantageAPI import AlphaVantage
+from datetime import date
 import sys
 import os
 
@@ -26,6 +27,8 @@ def createDataFile(ticker, function):
   del data["3. low"]
   del data["5. volume"]
   data.rename(columns = {'4. close':'close'}, inplace = True)
+  if function == "D":
+    data = data[date.fromisoformat(data['date']).month == date.today().month]
   data.to_csv(path, index=False)
 
 targetPath = './data/'

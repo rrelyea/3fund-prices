@@ -1,6 +1,7 @@
 import pandas as pd
 from alphaVantageAPI import AlphaVantage
 import sys
+import os
 
 if len(sys.argv) >= 3 and sys.argv[1] == "--key":
   key = sys.argv[2]
@@ -23,6 +24,9 @@ def createDataFile(ticker, function):
   file.write(data)
   file.close()
 
+targetPath = './data/'
+while not os.path.exists(targetPath):
+  os.mkdir(targetPath)
 createDataFile("VTI", "M")
 createDataFile("VXUS", "M")
 createDataFile("BND", "M")

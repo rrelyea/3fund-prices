@@ -15,6 +15,7 @@ jobs:
         pip install pandas
         pip install alphaVantage-api
     - name: Get data
+      run: |-
         python src/get-and-transform-data.py --key ${{ secrets.ALPHAVANTAGE_KEY }}
       shell: sh
     - name: Commit and push if it changed

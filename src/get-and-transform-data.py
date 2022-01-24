@@ -28,7 +28,9 @@ def createDataFile(ticker, function):
   del data["5. volume"]
   data.rename(columns = {'4. close':'close'}, inplace = True)
   if function == "D":
-    data = data[date.fromisoformat(data['date']).month == date.today().month]
+    currentMonth = date.month
+    data['date'] = pd.to_datetime(data['date'], format='%Y-%m-%d')
+    data = data.loc[data['date'].dt.month == currentMonth]
   data.to_csv(path, index=False)
 
 targetPath = './data/'

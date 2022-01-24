@@ -10,7 +10,7 @@ jobs:
     steps:
     - name: Check out this repo
       uses: actions/checkout@v2
-    - name: Sort csv by state, county, city, medical center
+    - name: Get data
       run: |-
         pip install pandas
         pip install alphaVantage-api

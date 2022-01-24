@@ -2,7 +2,7 @@ import pandas as pd
 from alphaVantageAPI import AlphaVantage
 import sys
 
-if sys.argv >= 3 and sys.argv[1] == "--key":
+if len(sys.argv) >= 3 and sys.argv[1] == "--key":
   key = sys.argv[2]
 
 av = AlphaVantage(
@@ -16,3 +16,5 @@ av = AlphaVantage(
         clean=False,
         proxy={}
     )
+av.data(symbol="VTI", function="M")
+av.data(symbol="VTI", function="D")

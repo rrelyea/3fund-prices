@@ -19,6 +19,10 @@ av = AlphaVantage(
         proxy={}
     )
 
+def updateTicker(ticker):
+  updateData(ticker, "M")
+  updateData(ticker, "D")
+
 def updateData(ticker, function):
   path = "./data/" + function + "_" + ticker + ".csv"   
   data = av.data(symbol=ticker, function=function)
@@ -27,6 +31,7 @@ def updateData(ticker, function):
   del data["3. low"]
   del data["5. volume"]
   data.rename(columns = {'4. close':'close'}, inplace = True)
+
   if function == "D":
     startOfMonth = datetime.today().replace(day=1)
     if datetime.today().month == 12:
@@ -36,11 +41,10 @@ def updateData(ticker, function):
     data['date'] = pd.to_datetime(data['date'], format='%Y-%m-%d')
     data = data.query("date >= '" + str(startOfMonth) + "' \
                       and date < '" + str(startOfNextMonth) + "'")
-  data.to_csv(path, index=False)
-
-def updateTicker(ticker):
-  updateData(ticker, "M")
-  updateData(ticker, "D")
+  
+  num_rows = data.count()[0]
+  if num_rows > 0:   # don't overwrite last months daily data until there is at least one day worth of data.
+    data.to_csv(path, index=False)
 
 targetPath = './data/'
 while not os.path.exists(targetPath):

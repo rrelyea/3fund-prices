@@ -4,8 +4,7 @@ on:
   push:
   workflow_dispatch:
   schedule:
-    - cron:  '15 21,22,23 * * 1,2,3,4,5'
-    - cron:  '15 0,1,2,3,4,5,6,7,8 * * 2,3,4,5,6'
+    - cron:  '11,37 18,21,22 * * 1,2,3,4,5'
 
 jobs:
   scheduled:
@@ -17,7 +16,7 @@ jobs:
       run: |-
         pip install pandas
         pip install alphaVantage-api
-    - name: Get data
+    - name: Get stock prices
       run: |-
         python src/get-and-transform-data.py --key ${{ secrets.ALPHAVANTAGE_KEY }}
       shell: sh

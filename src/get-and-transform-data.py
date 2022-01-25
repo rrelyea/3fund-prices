@@ -19,7 +19,7 @@ av = AlphaVantage(
         proxy={}
     )
 
-def createDataFile(ticker, function):
+def updateData(ticker, function):
   path = "./data/" + function + "_" + ticker + ".csv"   
   data = av.data(symbol=ticker, function=function)
   del data["1. open"]
@@ -38,12 +38,16 @@ def createDataFile(ticker, function):
                       and date < '" + str(startOfNextMonth) + "'")
   data.to_csv(path, index=False)
 
+def updateData(ticker) {
+  updateData(ticker, "M")
+  updateData(ticker, "D")
+}
+
 targetPath = './data/'
 while not os.path.exists(targetPath):
   os.mkdir(targetPath)
-createDataFile("VTI", "M")
-createDataFile("VXUS", "M")
-createDataFile("BND", "M")
-createDataFile("VTI", "D")
-createDataFile("VXUS", "D")
-createDataFile("BND", "D")
+
+tickers = ["VTI", "VXUS", "BND", "VTSAX", "VTIAX", "VBTLX"]
+
+for ticker in tickers:
+  updateData(ticker)

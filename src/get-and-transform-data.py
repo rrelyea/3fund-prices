@@ -38,7 +38,7 @@ def updateData(ticker, function):
                       and date < '" + str(startOfNextMonth) + "'")
   data.to_csv(path, index=False)
 
-def updateData(ticker):
+def updateTicker(ticker):
   updateData(ticker, "M")
   updateData(ticker, "D")
 
@@ -49,4 +49,4 @@ while not os.path.exists(targetPath):
 tickers = ["VTI", "VXUS", "BND", "VTSAX", "VTIAX", "VBTLX"]
 
 for ticker in tickers:
-  updateData(ticker)
+  updateTicker(ticker)

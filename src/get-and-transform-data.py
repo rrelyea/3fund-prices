@@ -38,10 +38,9 @@ def updateData(ticker, function):
                       and date < '" + str(startOfNextMonth) + "'")
   data.to_csv(path, index=False)
 
-def updateData(ticker) {
+def updateData(ticker):
   updateData(ticker, "M")
   updateData(ticker, "D")
-}
 
 targetPath = './data/'
 while not os.path.exists(targetPath):

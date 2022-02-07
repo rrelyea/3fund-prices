@@ -16,6 +16,7 @@ jobs:
       run: |-
         pip install pandas
         pip install alphaVantage-api
+        pip install python-dateutil
     - name: Get stock prices
       run: |-
         python src/get-and-transform-data.py --key ${{ secrets.ALPHAVANTAGE_KEY }}

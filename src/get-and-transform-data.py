@@ -1,6 +1,7 @@
 import pandas as pd
 from alphaVantageAPI import AlphaVantage
 from datetime import date,datetime
+from dateutil.relativedelta import *
 import sys
 import os
 
@@ -34,7 +35,7 @@ def updateData(ticker, function):
 
   if function == "D":
     startOfMonth = datetime.today().replace(day=1)
-    endOfLastMonth = startOfMonth - datetime.timedelta(days=1)
+    endOfLastMonth = startOfMonth + dateutil.relativedelta.relativedelta(days=-1)
 
     if datetime.today().month == 12:
       startOfNextMonth = startOfMonth.replace(month=1,year=datetime.today().year + 1)

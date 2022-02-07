@@ -36,7 +36,7 @@ def updateData(ticker, function):
 
   if function == "D":
     startOfMonth = datetime.today().replace(day=1)
-    endOfLastMonth = startOfMonth + relativedelta.relativedelta(days=-1)
+    endOfLastMonth = startOfMonth + relativedelta(days=-1)
 
     if datetime.today().month == 12:
       startOfNextMonth = startOfMonth.replace(month=1,year=datetime.today().year + 1)

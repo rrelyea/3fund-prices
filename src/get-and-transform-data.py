@@ -1,7 +1,8 @@
 import pandas as pd
 from alphaVantageAPI import AlphaVantage
-from datetime import date,datetime
+from datetime import *
 from dateutil.relativedelta import *
+import calendar
 import sys
 import os
 

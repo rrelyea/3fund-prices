@@ -54,7 +54,9 @@ targetPath = './data/'
 while not os.path.exists(targetPath):
   os.mkdir(targetPath)
 
-tickers = ["VTI", "VXUS", "BND", "VTSAX", "VTIAX", "VBTLX"]
-
-for ticker in tickers:
-  updateTicker(ticker)
+fundTypes = pd.read_csv('./data/fundTypes.csv')
+for i, funds in fundTypes.iterrows():
+  print(i, funds['stockFund'], funds['internationalStockFund'],funds['bondFund'])
+  updateTicker(funds['stockFund'])
+  updateTicker(funds['internationalStockFund'])
+  updateTicker(funds['bondFund'])

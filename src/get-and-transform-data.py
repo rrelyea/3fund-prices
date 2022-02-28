@@ -31,7 +31,6 @@ def updateData(ticker, function):
   del data["1. open"]
   del data["2. high"]
   del data["3. low"]
-  del data["6. volume"]
   data.rename(columns = {'4. close':'close'}, inplace = True)
 
   if function == "D":

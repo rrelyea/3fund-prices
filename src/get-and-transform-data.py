@@ -27,7 +27,7 @@ def updateTicker(ticker):
 
 def updateData(ticker, function):
   path = "./data/" + function + "_" + ticker + ".csv"   
-  data = av.data(symbol=ticker, function=function)
+  data = av.data(symbol=ticker, function=function, adjusted=True)
   del data["1. open"]
   del data["2. high"]
   del data["3. low"]

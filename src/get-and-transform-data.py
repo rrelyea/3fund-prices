@@ -31,7 +31,8 @@ def updateData(ticker, function):
   del data["1. open"]
   del data["2. high"]
   del data["3. low"]
-  data.rename(columns = {'4. close':'close'}, inplace = True)
+  del data["6. volume"]
+  data.rename(columns = {'4. close':'close', '5. adjusted close':'adjusted close', '7. dividend amount':'dividend'}, inplace = True)
 
   if function == "D":
     startOfMonth = datetime.today().replace(day=1)

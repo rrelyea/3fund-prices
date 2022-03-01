@@ -31,10 +31,15 @@ def updateData(ticker, function):
   del data["1. open"]
   del data["2. high"]
   del data["3. low"]
-  del data["6. volume"]
-  data.rename(columns = {'4. close':'close', '5. adjusted close':'adjusted close', '7. dividend amount':'dividend'}, inplace = True)
+
+  if function == "MA":
+    del data["6. volume"]
+    data.rename(columns = {'4. close':'close', '5. adjusted close':'adjusted close', '7. dividend amount':'dividend'}, inplace = True)
 
   if function == "D":
+    del data["5. volume"]
+    data.rename(columns = {'4. close':'close'}, inplace = True)
+  
     startOfMonth = datetime.today().replace(day=1)
     endOfLastMonth = startOfMonth + relativedelta(days=-1)
 

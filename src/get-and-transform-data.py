@@ -32,24 +32,23 @@ def updateData(ticker, function):
   del data["2. high"]
   del data["3. low"]
 
-  if function == "MA":
-    del data["6. volume"]
-    data.rename(columns = {'4. close':'close', '5. adjusted close':'adjusted close', '7. dividend amount':'dividend'}, inplace = True)
+  if (function == "MA"):
+      del data["6. volume"]
+      data.rename(columns = {'4. close':'close', '5. adjusted close':'adjusted close', '7. dividend amount':'dividend'}, inplace = True)
+  elif (function == "D"):
+      del data["5. volume"]
+      data.rename(columns = {'4. close':'close'}, inplace = True)
+    
+      startOfMonth = datetime.today().replace(day=1)
+      endOfLastMonth = startOfMonth + relativedelta(days=-1)
 
-  if function == "D":
-    del data["5. volume"]
-    data.rename(columns = {'4. close':'close'}, inplace = True)
-  
-    startOfMonth = datetime.today().replace(day=1)
-    endOfLastMonth = startOfMonth + relativedelta(days=-1)
-
-    if datetime.today().month == 12:
-      startOfNextMonth = startOfMonth.replace(month=1,year=datetime.today().year + 1)
-    else:
-      startOfNextMonth = startOfMonth.replace(month=startOfMonth.month+1)
-    data['date'] = pd.to_datetime(data['date'], format='%Y-%m-%d')
-    data = data.query("date > '" + str(endOfLastMonth) + "' \
-                      and date < '" + str(startOfNextMonth) + "'")
+      if datetime.today().month == 12:
+        startOfNextMonth = startOfMonth.replace(month=1,year=datetime.today().year + 1)
+      else:
+        startOfNextMonth = startOfMonth.replace(month=startOfMonth.month+1)
+      data['date'] = pd.to_datetime(data['date'], format='%Y-%m-%d')
+      data = data.query("date > '" + str(endOfLastMonth) + "' \
+                        and date < '" + str(startOfNextMonth) + "'")
   
   num_rows = data.count()[0]
   if num_rows > 0:   # don't overwrite last months daily data until there is at least one day worth of data.

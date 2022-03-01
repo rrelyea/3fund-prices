@@ -8,6 +8,8 @@ import os
 
 if len(sys.argv) >= 3 and sys.argv[1] == "--key":
   key = sys.argv[2]
+if len(sys.argv) >= 5 and sys.argv[3] == "--etf":
+  etf = sys.argv[4] == "true"
 
 av = AlphaVantage(
         api_key=key,
@@ -60,7 +62,13 @@ while not os.path.exists(targetPath):
 
 fundTypes = pd.read_csv('./data/fundTypes.csv')
 for i, funds in fundTypes.iterrows():
-  print(i, funds['stockFund'], funds['internationalStockFund'],funds['bondFund'])
-  updateTicker(funds['stockFund'])
-  updateTicker(funds['internationalStockFund'])
-  updateTicker(funds['bondFund'])
+  if etf and funds['type'].endswith("ETF"):
+    print(i, funds['stockFund'], funds['internationalStockFund'],funds['bondFund'])
+    updateTicker(funds['stockFund'])
+    updateTicker(funds['internationalStockFund'])
+    updateTicker(funds['bondFund'])
+  elif not etf and not funds['type'].endswith("ETF"):
+    print(i, funds['stockFund'], funds['internationalStockFund'],funds['bondFund'])
+    updateTicker(funds['stockFund'])
+    updateTicker(funds['internationalStockFund'])
+    updateTicker(funds['bondFund'])

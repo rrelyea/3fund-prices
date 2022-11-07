@@ -56,8 +56,9 @@ def updateData(ticker, function):
     num_rows = data.count()[0]
     if num_rows > 0:   # don't overwrite last months daily data until there is at least one day worth of data.
       data.to_csv(path, index=False)
+    print("fetched " + ticker + " " + function, flush=True)
   except ValueError:
-    print("ValueError: fetching " + ticker + " " + function)
+    print("ValueError: fetching " + ticker + " " + function, flush=True)
 
 targetPath = './data/'
 while not os.path.exists(targetPath):

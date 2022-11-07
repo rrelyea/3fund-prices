@@ -25,36 +25,48 @@ av = AlphaVantage(
 
 def updateTicker(ticker):
   updateData(ticker, "MA") # monthly adjusted for dividends
-  updateData(ticker, "D")
+  updateData(ticker, "DA")
 
 def updateData(ticker, function):
-  path = "./data/" + function + "_" + ticker + ".csv"   
-  data = av.data(symbol=ticker, function=function)
-  del data["1. open"]
-  del data["2. high"]
-  del data["3. low"]
-
   if (function == "MA"):
-      del data["6. volume"]
-      data.rename(columns = {'4. close':'close', '5. adjusted close':'adjusted close', '7. dividend amount':'dividend'}, inplace = True)
-  elif (function == "D"):
-      del data["5. volume"]
-      data.rename(columns = {'4. close':'close'}, inplace = True)
-    
-      startOfMonth = datetime.today().replace(day=1)
-      endOfLastMonth = startOfMonth + relativedelta(days=-1)
+    path = "./data/" + function + "_" + ticker + ".csv"
+  # on 11/7/2022, D stopped being free. Switched over to fetching DA, but saving it with D_ filename.
+  elif (function == "DA"):
+    path = "./data/D_" + ticker + ".csv"
 
-      if datetime.today().month == 12:
-        startOfNextMonth = startOfMonth.replace(month=1,year=datetime.today().year + 1)
-      else:
-        startOfNextMonth = startOfMonth.replace(month=startOfMonth.month+1)
-      data['date'] = pd.to_datetime(data['date'], format='%Y-%m-%d')
-      data = data.query("date > '" + str(endOfLastMonth) + "' \
-                        and date < '" + str(startOfNextMonth) + "'")
-  
-  num_rows = data.count()[0]
-  if num_rows > 0:   # don't overwrite last months daily data until there is at least one day worth of data.
-    data.to_csv(path, index=False)
+  try:
+    data = av.data(symbol=ticker, function=function)
+    del data["1. open"]
+    del data["2. high"]
+    del data["3. low"]
+#5. adjusted close	6. volume	7. dividend amount	8. split coefficient
+    if (function == "MA"):
+        del data["6. volume"]
+        data.rename(columns = {'4. close':'close', '5. adjusted close':'adjusted close', '7. dividend amount':'dividend'}, inplace = True)
+    elif (function == "DA"):
+        del data["5. adjusted close"]
+        del data["6. volume"]
+        del data["7. dividend amount"]
+        del data["8. split coefficient"]
+        data.rename(columns = {'4. close':'close'}, inplace = True)
+      
+        startOfMonth = datetime.today().replace(day=1)
+        endOfLastMonth = startOfMonth + relativedelta(days=-1)
+
+        if datetime.today().month == 12:
+          startOfNextMonth = startOfMonth.replace(month=1,year=datetime.today().year + 1)
+        else:
+          startOfNextMonth = startOfMonth.replace(month=startOfMonth.month+1)
+        data['date'] = pd.to_datetime(data['date'], format='%Y-%m-%d')
+        data = data.query("date > '" + str(endOfLastMonth) + "' \
+                          and date < '" + str(startOfNextMonth) + "'")
+    
+    num_rows = data.count()[0]
+    if num_rows > 0:   # don't overwrite last months daily data until there is at least one day worth of data.
+      data.to_csv(path, index=False)
+    print("fetched " + ticker + " " + function, flush=True)
+  except ValueError:
+    print("ValueError: fetching " + ticker + " " + function, flush=True)
 
 targetPath = './data/'
 while not os.path.exists(targetPath):

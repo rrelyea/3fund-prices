@@ -28,18 +28,26 @@ def updateTicker(ticker):
   updateData(ticker, "DA")
 
 def updateData(ticker, function):
-  path = "./data/" + function + "_" + ticker + ".csv"
+  if (function == "MA"):
+    path = "./data/" + function + "_" + ticker + ".csv"
+  # on 11/7/2022, D stopped being free. Switched over to fetching DA, but saving it with D_ filename.
+  elif (function == "DA"):
+    path = "./data/D_" + ticker + ".csv"
+
   try:
     data = av.data(symbol=ticker, function=function)
     del data["1. open"]
     del data["2. high"]
     del data["3. low"]
-
+#5. adjusted close	6. volume	7. dividend amount	8. split coefficient
     if (function == "MA"):
         del data["6. volume"]
         data.rename(columns = {'4. close':'close', '5. adjusted close':'adjusted close', '7. dividend amount':'dividend'}, inplace = True)
-    elif (function == "D"):
-        del data["5. volume"]
+    elif (function == "DA"):
+        del data["5. adjusted close"]
+        del data["6. volume"]
+        del data["7. dividend amount"]
+        del data["8. split coefficient"]
         data.rename(columns = {'4. close':'close'}, inplace = True)
       
         startOfMonth = datetime.today().replace(day=1)

@@ -25,7 +25,7 @@ av = AlphaVantage(
 
 def updateTicker(ticker):
   updateData(ticker, "MA") # monthly adjusted for dividends
-  updateData(ticker, "D")
+  #  updateData(ticker, "D")
 
 def updateData(ticker, function):
   path = "./data/" + function + "_" + ticker + ".csv"   

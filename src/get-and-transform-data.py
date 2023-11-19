@@ -25,7 +25,7 @@ av = AlphaVantage(
 
 def updateTicker(ticker):
   updateData(ticker, "MA") # monthly adjusted for dividends
-  updateData(ticker, "DA")
+#  updateData(ticker, "DA")- turn off, since broken 11/2023.
 
 def updateData(ticker, function):
   if (function == "MA"):
